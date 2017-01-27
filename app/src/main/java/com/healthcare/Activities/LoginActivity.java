@@ -73,9 +73,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         tvLogin=(TextView)findViewById(R.id.tvLogin);
-       /* Typeface tf = Typeface.createFromAsset(getAssets(),
+        Typeface tf = Typeface.createFromAsset(getAssets(),
                 "fonts/font.ttf");
-        tvLogin.setTypeface(tf);*/
+        tvLogin.setTypeface(tf);
 
 
         register.setOnClickListener(new View.OnClickListener() {
