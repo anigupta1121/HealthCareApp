@@ -9,7 +9,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context="com.healthcare.Activities.LoginActivity">
 
@@ -37,11 +36,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="User Name"
+
         android:id="@+id/editTextUserName"
         android:layout_marginTop="52dp" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
+        android:id="@+id/textInputLayout"
         android:layout_height="wrap_content">
     <EditText
         android:layout_width="match_parent"
@@ -70,7 +71,7 @@
             android:layout_weight="1"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:background="#FFF"></LinearLayout>
+            android:background="#000"></LinearLayout>
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -88,7 +89,7 @@
             android:layout_weight="1"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:background="#FFF">
+            android:background="#000">
         </LinearLayout>
     </LinearLayout>
     <TextView
@@ -100,7 +101,6 @@
 
         android:text="Not a member?signup!"
         android:textSize="20dp"
-        android:textColor="#FFF"
         />
 
 

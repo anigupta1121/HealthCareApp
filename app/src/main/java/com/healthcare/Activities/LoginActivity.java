@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     String username,password;
     SmallBang mSmallBang;
     Button btnLogin;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         register=(TextView)findViewById(R.id.register);
         btnLogin=(Button)findViewById(R.id.button);
 
+         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+         editor = pref.edit();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,9 +78,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         tvLogin=(TextView)findViewById(R.id.tvLogin);
-       /* Typeface tf = Typeface.createFromAsset(getAssets(),
+        Typeface tf = Typeface.createFromAsset(getAssets(),
                 "fonts/font.ttf");
-        tvLogin.setTypeface(tf);*/
+        tvLogin.setTypeface(tf);
 
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +186,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(s.equalsIgnoreCase("success")){
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("USER_NAME", username);
+                    editor.putBoolean("loggedIn", true); // Storing boolean - true/false
+                    editor.commit();
                     finish();
                     startActivity(intent);
                 }else {
