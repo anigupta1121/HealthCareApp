@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
+    android:layout_width="fill_parent"
+    android:layout_height="160.0dip"
+    android:background="@drawable/nav_header_background"
+    android:clickable="true"
+    android:foreground="?android:selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/drawerImage"
+        android:layout_width="100.0dip"
+        android:layout_height="100.0dip"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10.0dip"
+        android:src="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/drawerImage"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/drawerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Name"
+            android:textColor="@android:color/black"
+            android:textSize="15.0dip"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/drawerId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/drawerName"
+            android:layout_alignRight="@+id/drawerName"
+            android:layout_below="@+id/drawerName"
+            android:layout_marginTop="5.0dip"
+            android:gravity="left"
+            android:text="Phone"
+            android:textColor="@android:color/black"
+            android:textSize="15.0dip"
+            android:textStyle="italic" />
+    </LinearLayout>
+</RelativeLayout>

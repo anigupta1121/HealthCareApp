@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_Home"
+            android:title="HOME" />
+        <item
+            android:id="@+id/nav_vaccine"
+            android:title="VACCINATION RECORD" />
+        <item
+            android:id="@+id/nav_family"
+            android:title="FAMILY MEDICAL RECORD" />
+
+        <item
+            android:id="@+id/nav_visit"
+            android:title="VISIT SCHEDULER" />
+
+        <item
+            android:id="@+id/nav_shareApp"
+            android:title="SHARE APP" />
+        <item
+            android:id="@+id/nav_termsOfUse"
+            android:title="TERMS OF USE" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="LOG OUT" />
+
+    </group>
+</menu>

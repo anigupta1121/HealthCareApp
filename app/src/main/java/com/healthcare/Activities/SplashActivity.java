@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.healthcare.MainActivity;
 import com.healthcare.R;
+import com.healthcare.handlers.DBHandler;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -23,7 +25,12 @@ public class SplashActivity extends AppCompatActivity {
                     e.printStackTrace();
 
                 }finally{
-                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                    Intent intent;
+                    if (DBHandler.isLoggedIn(getApplicationContext()))
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
+                    else
+                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+
                     startActivity(intent);
 
                 }
@@ -31,5 +38,11 @@ public class SplashActivity extends AppCompatActivity {
 
         };
         timer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }

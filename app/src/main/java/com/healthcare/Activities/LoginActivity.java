@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.healthcare.MainActivity;
 import com.healthcare.R;
+import com.healthcare.handlers.DBHandler;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -53,8 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     String username,password;
     SmallBang mSmallBang;
     Button btnLogin;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         register=(TextView)findViewById(R.id.register);
         btnLogin=(Button)findViewById(R.id.button);
-
-         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-         editor = pref.edit();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,17 +107,24 @@ public class LoginActivity extends AppCompatActivity {
     public void invokeLogin(View view){
         username = editTextUserName.getText().toString();
         password = editTextPassword.getText().toString();
-        mSmallBang.bang(view,new SmallBangListener() {
-            @Override
-            public void onAnimationStart() {
-                login(username,password);
-            }
+        if (username != null && password != null) {
+            mSmallBang.bang(view, new SmallBangListener() {
+                @Override
+                public void onAnimationStart() {
+                    login(username, password);
+                }
 
-            @Override
-            public void onAnimationEnd() {
+                @Override
+                public void onAnimationEnd() {
 
-            }
-        });
+                }
+            });
+        } else {
+            Snackbar.make(findViewById(R.id.loginLinearLayout), "Enter both the values!", Snackbar.LENGTH_LONG)
+                    .setAction("Ok", null)
+                    .show();
+        }
+
 
 
     }
@@ -186,12 +190,17 @@ public class LoginActivity extends AppCompatActivity {
                 if(s.equalsIgnoreCase("success")){
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("USER_NAME", username);
-                    editor.putBoolean("loggedIn", true); // Storing boolean - true/false
-                    editor.commit();
+
+                    DBHandler.setLoggedIn(true, getApplicationContext());
+
+                    Toast.makeText(LoginActivity.this, "Check user details", Toast.LENGTH_SHORT).show();
                     finish();
                     startActivity(intent);
                 }else {
-                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+
+                    editTextUserName.setError("Check Username!!");
+                    editTextPassword.setError("Check Password!!");
+
                 }
             }
         }

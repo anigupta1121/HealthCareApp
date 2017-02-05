@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Health Care</string>
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_close">Drawer closed</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
