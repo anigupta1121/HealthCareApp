@@ -1,4 +1,4 @@
-package com.healthcare;
+package com.healthcare.Activities;
 
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
@@ -10,7 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.healthcare.Activities.LoginActivity;
-import com.healthcare.Fragments.VaccineFragment;
+import com.healthcare.Fragments.module_vaccination.VaccineFragment;
+import com.healthcare.R;
 import com.healthcare.handlers.DBHandler;
 
 public class MainActivity extends AppCompatActivity {
