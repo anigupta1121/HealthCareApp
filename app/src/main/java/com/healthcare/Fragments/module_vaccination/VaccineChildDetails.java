@@ -3,8 +3,9 @@ package com.healthcare.Fragments.module_vaccination;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,14 +19,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.healthcare.R;
+import com.healthcare.handlers.VaccinationDBHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -36,7 +40,13 @@ public class VaccineChildDetails extends Fragment {
 
     ImageButton btnDate;
     TextView childDOBTV;
-    Button btnAddChild, newChildBtn;
+    Button btnAddVaccine, btnAddChild;
+    RadioButton maleRB, femaleRB;
+    RadioGroup genderRadio;
+    String date, gender = "Female";
+    EditText etChildName;
+    ChildDetails childDetails;
+    VaccinationDBHandler dbHandler;
 
     public VaccineChildDetails() {
         // Required empty public constructor
@@ -52,16 +62,35 @@ public class VaccineChildDetails extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_vaccine_child_details, container, false);
-        btnAddChild = (Button) v.findViewById(R.id.addVaccine);
-        newChildBtn = (Button) v.findViewById(R.id.newChildBtn);
-
+        btnAddVaccine = (Button) v.findViewById(R.id.addVaccine);
+        btnAddChild = (Button) v.findViewById(R.id.newChildBtn);
+        etChildName = (EditText) v.findViewById(R.id.etChildName);
         btnDate = (ImageButton) v.findViewById(R.id.btnDatePick);
+        maleRB = (RadioButton) v.findViewById(R.id.maleRB);
+        femaleRB = (RadioButton) v.findViewById(R.id.femaleRB);
         vaccinesListView = (ListView) v.findViewById(R.id.vaccinesList);
+        genderRadio = (RadioGroup) v.findViewById(R.id.genderRadio);
+        dbHandler = new VaccinationDBHandler(getContext());
 
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, vaccineName);
 
+
+        genderRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (genderRadio.getCheckedRadioButtonId()) {
+                    case R.id.maleRB:
+                        gender = "Male";
+                        break;
+                    case R.id.femaleRB:
+                        gender = "Female";
+
+
+                }
+            }
+        });
         childDOBTV = (TextView) v.findViewById(R.id.textView40);
-        btnAddChild.setOnClickListener(new View.OnClickListener() {
+        btnAddVaccine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(getContext());
@@ -99,14 +128,13 @@ public class VaccineChildDetails extends Fragment {
                             }
 
                         };
-                        new DatePickerDialog(getContext(), date, myCalendar
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), date, myCalendar
                                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
-
+                                myCalendar.get(Calendar.DAY_OF_MONTH));
+                        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                        datePickerDialog.show();
                     }
                 });
-
 
                 alertDialogBuilder
                         .setTitle("Vaccine Details")
@@ -114,11 +142,17 @@ public class VaccineChildDetails extends Fragment {
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        if (etName.getText().toString().equals("") &&
+                                                etDate.getText().toString().equals("") &&
+                                                etType.getText().toString().equals("")) {
+                                            Toast.makeText(getContext(), "Please fill the details correctly", Toast.LENGTH_SHORT).show();
 
-                                        vaccineName.add(etName.getText().toString());
-                                        vaccineDetails.add(new VaccineDetails(etName.getText().toString(),
-                                                etDate.getText().toString(), etType.getText().toString()));
-                                        updateList();
+                                        } else {
+                                            vaccineName.add(etName.getText().toString());
+                                            vaccineDetails.add(new VaccineDetails(etName.getText().toString(),
+                                                    etDate.getText().toString(), etType.getText().toString()));
+                                            updateList();
+                                        }
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -173,6 +207,19 @@ public class VaccineChildDetails extends Fragment {
                 return true;
             }
         });
+
+        btnAddChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                childDetails = new ChildDetails(etChildName.getText().toString(), vaccineDetails, date, gender);
+                if (!dbHandler.addChild(childDetails)) {
+                    Toast.makeText(getContext(), "Error inserting values!", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    getFragmentManager().popBackStack();
+                }
+            }
+        });
         return v;
     }
 
@@ -181,9 +228,12 @@ public class VaccineChildDetails extends Fragment {
         vaccinesListView.setAdapter(adapter);
         if (vaccineDetails.size() > 0) {
 
-            newChildBtn.setEnabled(true);
+            btnAddChild.setEnabled(true);
+            btnAddChild.setTextColor(Color.WHITE);
         } else {
-            newChildBtn.setEnabled(false);
+            btnAddChild.setTextColor(Color.BLACK);
+            btnAddChild.setEnabled(false);
+
         }
     }
 
@@ -194,6 +244,7 @@ public class VaccineChildDetails extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Log.d("timeDate", sdf.format(myCalendar.getTime()));
         childDOBTV.setText("DOB:" + sdf.format(myCalendar.getTime()));
+        date = sdf.format(myCalendar.getTime());
     }
 
 }

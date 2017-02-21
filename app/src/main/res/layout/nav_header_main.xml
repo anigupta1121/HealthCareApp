@@ -3,7 +3,7 @@
     android:id="@+id/nav_header"
     android:layout_width="fill_parent"
     android:layout_height="160.0dip"
-    android:background="@drawable/nav_header_background"
+    android:background="#000"
     android:clickable="true"
     android:foreground="?android:selectableItemBackground">
 
@@ -30,7 +30,8 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="Name"
-            android:textColor="@android:color/black"
+
+            android:textColor="#FFF"
             android:textSize="15.0dip"
             android:textStyle="bold"
             android:typeface="monospace" />
@@ -45,7 +46,7 @@
             android:layout_marginTop="5.0dip"
             android:gravity="left"
             android:text="Phone"
-            android:textColor="@android:color/black"
+            android:textColor="#FFF"
             android:textSize="15.0dip"
             android:textStyle="italic" />
     </LinearLayout>

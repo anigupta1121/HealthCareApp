@@ -10,27 +10,33 @@ import com.healthcare.handlers.DBHandler;
 public class SplashActivity extends AppCompatActivity {
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Thread timer=new Thread(){
-            public void run(){
+        final Thread timer = new Thread() {
+            public void run() {
                 try {
                     sleep(5000);
 
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
 
-                }finally{
+                } finally {
                     Intent intent;
-                    if (DBHandler.isLoggedIn(getApplicationContext()))
+                    if (DBHandler.isLoggedIn(getApplicationContext())) {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
-                    else
-                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
 
-                    startActivity(intent);
+                         intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(intent);
+
+                    }
+
 
                 }
             }
@@ -38,7 +44,6 @@ public class SplashActivity extends AppCompatActivity {
         };
         timer.start();
     }
-
     @Override
     protected void onPause() {
         super.onPause();

@@ -2,8 +2,10 @@ package com.healthcare.handlers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.healthcare.Fragments.module_vaccination.ChildDetails;
 import com.healthcare.Fragments.module_vaccination.VaccineDetails;
@@ -28,10 +30,14 @@ public class VaccinationDBHandler extends SQLiteOpenHelper {
     private static String TABLE_NAME1="Vaccine_details";
     private static String COLUMN_ID1="vaccine_id";
     private static String COLUMN_NAME1="vaccine_name";
-    private static String COLUMN_VACCINATION_MONTH ="vaccination_month";
+    private static String COLUMN_VACCINATION_MONTH ="vaccination_date";
+    private static String COLUMN_VACCINATION_TYPE="vaccination_type";
+
+    Context context;
 
     public VaccinationDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VER);
+        this.context=context;
     }
 
     @Override
@@ -47,7 +53,9 @@ public class VaccinationDBHandler extends SQLiteOpenHelper {
         String q1="Create Table "+TABLE_NAME1+"( "
                 +COLUMN_ID1+" integer PRIMARY KEY AUTOINCREMENT, "
                 +COLUMN_NAME1+" varchar(20), "
-                + COLUMN_VACCINATION_MONTH +" date,foreign key("+COLUMN_ID+") references "+TABLE_NAME+"("+COLUMN_ID+"))";
+                +COLUMN_NAME+" varchar(20), "
+                +COLUMN_VACCINATION_TYPE+" varchar(20), "
+                + COLUMN_VACCINATION_MONTH +" varchar(20))";
 
         db.execSQL(q1);
     }
@@ -59,8 +67,9 @@ public class VaccinationDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addChild(ChildDetails childDetails){
+    public boolean addChild(ChildDetails childDetails){
         ArrayList<VaccineDetails> vaccineDetails=childDetails.vaccineDetails;
+        long result;
       ContentValues contentValues=new ContentValues();
         ContentValues contentValues1=new ContentValues();
         SQLiteDatabase db=getWritableDatabase();
@@ -69,19 +78,37 @@ public class VaccinationDBHandler extends SQLiteOpenHelper {
         contentValues.put(COLUMN_DOB,childDetails.dob);
         contentValues.put(COLUMN_GENDER,childDetails.gender);
 
-        db.insert(TABLE_NAME,null,contentValues);
+        result=db.insert(TABLE_NAME,null,contentValues);
 
+        //Toast.makeText(context,contentValues.get(COLUMN_NAME).toString(),Toast.LENGTH_LONG).show();
         for (int i=0;i<vaccineDetails.size();i++){
+            contentValues1.clear();
             contentValues1.put(COLUMN_NAME1,vaccineDetails.get(i).vaccine_name);
             contentValues1.put(COLUMN_VACCINATION_MONTH,vaccineDetails.get(i).date);
-            contentValues1.put(COLUMN_GENDER,childDetails.gender);
+            contentValues1.put(COLUMN_VACCINATION_TYPE,vaccineDetails.get(i).type);
+            contentValues1.put(COLUMN_NAME,childDetails.name);
 
-            db.insert(TABLE_NAME1,null,contentValues1);
+             result=db.insert(TABLE_NAME1,null,contentValues1);
+
         }
         db.close();
+        return result != -1;
     }
 
-    public void delChild(ChildDetails childDetails){
+   public Cursor getChildData(){
+        SQLiteDatabase db=getWritableDatabase();
+        Cursor cursor=db.rawQuery("select * from "+TABLE_NAME,null);
+        return cursor;
+    }
+    public Cursor getVaccineData(){
+        SQLiteDatabase db=getWritableDatabase();
+        Cursor cursor=db.rawQuery("select * from "+TABLE_NAME1,null);
+        return cursor;
+    }
+    public void delChild(String name){
 
+        SQLiteDatabase db=getWritableDatabase();
+        db.execSQL("delete from "+TABLE_NAME+" where "+COLUMN_NAME+ " = '"+name+"'");
+        db.execSQL("delete from "+TABLE_NAME1+" where "+COLUMN_NAME+ " = '"+name+"'");
     }
 }

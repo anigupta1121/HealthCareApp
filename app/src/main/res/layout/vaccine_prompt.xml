@@ -40,4 +40,10 @@
             android:focusable="false"
             android:hint="Date" />
     </android.support.design.widget.TextInputLayout>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Set Reminder"
+        android:id="@+id/reminderCheck"/>
 </LinearLayout>

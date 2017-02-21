@@ -35,6 +35,7 @@ public class DBHandler {
         editor.putString("name", name).apply();
     }
 
+
     public static String getName(Context context) {
         SharedPreferences name = context.getSharedPreferences("UserDetails", MODE_PRIVATE);
         return name.getString("name", "Name");

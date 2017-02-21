@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Fragments.module_visitScheduler.View_window" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +35,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Fragments.module_family_record.ViewD"/>
+        <activity android:name=".Fragments.module_family_record.Vaccine"/>
+
+        <receiver
+            android:name=".MyBroadcastReceiver"
+            android:process=":remote"></receiver>
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

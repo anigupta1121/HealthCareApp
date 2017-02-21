@@ -186,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("USER_NAME", username);
 
                     DBHandler.setLoggedIn(true, getApplicationContext());
+                    DBHandler.setName(editTextUserName.getText().toString(),LoginActivity.this);
 
                     Toast.makeText(LoginActivity.this, "Check user details", Toast.LENGTH_SHORT).show();
                     finish();

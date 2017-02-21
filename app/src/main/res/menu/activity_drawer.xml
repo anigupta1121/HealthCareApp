@@ -2,28 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="none">
         <item
+
             android:id="@+id/nav_Home"
-            android:title="HOME" />
+            android:title="Home" />
         <item
             android:id="@+id/nav_vaccine"
-            android:title="VACCINATION RECORD" />
+            android:title="Vaccination Record" />
+        <item
+            android:id="@+id/nav_pill_reminder"
+            android:title="Pill Reminder" />
         <item
             android:id="@+id/nav_family"
-            android:title="FAMILY MEDICAL RECORD" />
+            android:title="Family Medical Record" />
 
         <item
             android:id="@+id/nav_visit"
-            android:title="VISIT SCHEDULER" />
+            android:title="Visit Scheduler" />
+        <item
+            android:id="@+id/nav_ambulance"
+            android:title="Ambulance" />
+        <item
+            android:id="@+id/nav_doctor_chat"
+            android:title="Ask a Doctor" />
 
         <item
             android:id="@+id/nav_shareApp"
-            android:title="SHARE APP" />
+            android:title="Share App" />
         <item
             android:id="@+id/nav_termsOfUse"
-            android:title="TERMS OF USE" />
+            android:title="Terms of use" />
         <item
             android:id="@+id/nav_logout"
-            android:title="LOG OUT" />
+            android:title="Log Out" />
 
     </group>
 </menu>

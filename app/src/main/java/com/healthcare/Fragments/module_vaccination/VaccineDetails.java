@@ -7,11 +7,11 @@ package com.healthcare.Fragments.module_vaccination;
 public class VaccineDetails {
     public String vaccine_name;
     public String date;
-    public String year;
+    public String type;
 
-    public VaccineDetails(String vaccine_name, String date, String year) {
+    public VaccineDetails(String vaccine_name, String date, String type) {
         this.vaccine_name = vaccine_name;
         this.date = date;
-        this.year = year;
+        this.type = type;
     }
 }
