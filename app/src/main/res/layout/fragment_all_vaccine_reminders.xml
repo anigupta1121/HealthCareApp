@@ -5,7 +5,7 @@
     tools:context="com.healthcare.Fragments.module_vaccination.AllVaccineReminders">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/vaccine_reminder_recycler"
+        android:id="@+id/all_vaccine_reminder_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

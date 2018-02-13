@@ -1,0 +1,162 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:context="com.healthcare.Fragments.module_vaccination.VaccineChildDetails">
+
+
+    <Button
+        android:id="@+id/newChildBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:enabled="false"
+        android:background="@color/colorPrimary"
+        android:text="Add Child" />
+
+    <ScrollView
+        android:id="@+id/scrollView6"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="New Child"
+                android:text="New Child"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="#ff2a4aff" />
+
+            <EditText
+                android:id="@+id/etChildName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:capitalize="words"
+
+                android:lines="1"
+                android:singleLine="true" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:outlineProvider="bounds">
+
+                <ImageButton
+                    android:id="@+id/btnDatePick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/calendar" />
+
+                <TextView
+                    android:id="@+id/childDOBTV"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/btnDatePick"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView40"
+                    android:layout_toLeftOf="@+id/btnDatePick"
+                    android:layout_toStartOf="@+id/btnDatePick" />
+
+                <TextView
+                    android:id="@+id/textView40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="DOB"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="#ff2a4aff" />
+            </RelativeLayout>
+
+            <RadioGroup
+                android:id="@+id/genderRadio"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView41"
+                android:layoutMode="opticalBounds"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView41"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/relativeLayout4"
+                    android:text="Gender"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="#ff2a4aff" />
+
+                <RadioButton
+                    android:id="@+id/maleRB"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:checked="false"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/femaleRB"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:buttonTintMode="src_atop"
+                    android:checked="true"
+                    android:elegantTextHeight="true"
+                    android:text="Female" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/relativeLayout4"
+                android:text="Vaccine Details"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="#ff2a4aff" />
+
+            <Button
+                android:id="@+id/addVaccine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:background="#BBB"
+
+                android:textSize="24dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ListView
+        android:id="@+id/vaccinesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/newChildBtn"
+        android:layout_below="@+id/scrollView6" />
+</RelativeLayout>

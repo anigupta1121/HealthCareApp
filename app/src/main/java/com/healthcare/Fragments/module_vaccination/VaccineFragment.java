@@ -3,6 +3,7 @@ package com.healthcare.Fragments.module_vaccination;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.healthcare.Activities.MainActivity;
 import com.healthcare.R;
 import com.healthcare.handlers.VaccinationDBHandler;
 
@@ -45,6 +47,7 @@ public class VaccineFragment extends Fragment {
         btnAddChild = (Button) v.findViewById(R.id.btnAddChild);
         handler = new VaccinationDBHandler(getContext());
         vaccineRecycler = (RecyclerView) v.findViewById(R.id.vaccineRecycler);
+      //  ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         vaccineRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         getData();
 

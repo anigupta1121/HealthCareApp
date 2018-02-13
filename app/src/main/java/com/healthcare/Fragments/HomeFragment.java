@@ -18,7 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.healthcare.Activities.MainActivity;
+import com.healthcare.Fragments.module_doctor_chat.ChatFrag;
+import com.healthcare.Fragments.module_doctor_chat.ChatTabs;
 import com.healthcare.Fragments.module_family_record.fam_frag1;
+import com.healthcare.Fragments.module_pill_reminder.PillFragment;
 import com.healthcare.Fragments.module_vaccination.VaccineFragment;
 import com.healthcare.Fragments.module_vaccination.VaccineRecyclerAdapter;
 import com.healthcare.Fragments.module_visitScheduler.FragDocVisit;
@@ -37,8 +40,8 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private static final Integer[] imgs={R.drawable.vaccine_grid,R.drawable.pills_grid,R.drawable.family_grid,
-    R.drawable.visit_grid,R.drawable.ambulance_grid,R.drawable.doctor_grid};
+    private static final Integer[] imgs = {R.drawable.vaccine_grid, R.drawable.pills_grid, R.drawable.family_grid,
+            R.drawable.visit_grid, R.drawable.ambulance_grid, R.drawable.doctor_grid};
     private static final String[] title = {"VACCINATION RECORD", "PILL REMINDER", "FAMILY MEDICAL RECORD", "VISIT SCHEDULER"
             , "AMBULANCE", "DOCTOR CHAT"};
 
@@ -49,7 +52,7 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         gridView = (GridView) v.findViewById(R.id.gridHome);
 
-        MyAdapter adapter=new MyAdapter();
+        MyAdapter adapter = new MyAdapter();
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,24 +68,38 @@ public class HomeFragment extends Fragment {
                                 .commit();
                         break;
                     case 1:
+                        ((MainActivity) getContext()).getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new PillFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         break;
-                    case 2:((MainActivity) getContext()).getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, new fam_frag1())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .addToBackStack(null)
-                            .commit();
+                    case 2:
+                        ((MainActivity) getContext()).getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new fam_frag1())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         break;
-                    case 3:((MainActivity) getContext()).getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, new FragDocVisit())
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .addToBackStack(null)
-                            .commit();
+                    case 3:
+                        ((MainActivity) getContext()).getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new FragDocVisit())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         break;
                     case 4:
                         break;
                     case 5:
+                        ((MainActivity) getContext()).getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new ChatTabs())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         break;
                 }
             }
@@ -119,18 +136,17 @@ public class HomeFragment extends Fragment {
 
                 //gridView = new View(getContext());
 
-                gridView = inflater.inflate(R.layout.grid_layout,parent,false);
+                gridView = inflater.inflate(R.layout.grid_layout, parent, false);
 
 
                 TextView textView = (TextView) gridView
                         .findViewById(R.id.gridTitle);
-                ImageView imageView=(ImageView)gridView.findViewById(R.id.gridImage) ;
+                ImageView imageView = (ImageView) gridView.findViewById(R.id.gridImage);
                 textView.setText(title[position]);
                 imageView.setImageResource(imgs[position]);
 
 
-            }
-            else {
+            } else {
 
                 gridView = (View) convertView;
             }

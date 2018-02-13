@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.healthcare.R;
 import com.healthcare.handlers.DBHandler;
+import com.healthcare.other.PrefManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,7 +27,12 @@ public class SplashActivity extends AppCompatActivity {
 
                 } finally {
                     Intent intent;
-                    if (DBHandler.isLoggedIn(getApplicationContext())) {
+                    PrefManager manager=new PrefManager(getApplicationContext());
+                    if(manager.isFirstTimeLaunch()){
+                        intent = new Intent(SplashActivity.this, WelcomeActivity.class);
+                        startActivity(intent);
+                    }
+                    else if (DBHandler.isLoggedIn(getApplicationContext())) {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);
                     }

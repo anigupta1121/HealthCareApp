@@ -1,12 +1,17 @@
 package com.healthcare.Fragments.module_vaccination;
 
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,10 +32,12 @@ import android.widget.Toast;
 
 import com.healthcare.R;
 import com.healthcare.handlers.VaccinationDBHandler;
+import com.healthcare.other.NotificationPublisher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -47,6 +55,8 @@ public class VaccineChildDetails extends Fragment {
     EditText etChildName;
     ChildDetails childDetails;
     VaccinationDBHandler dbHandler;
+    int year1, monthOfYear1,dayOfMonth1;
+
 
     public VaccineChildDetails() {
         // Required empty public constructor
@@ -106,6 +116,9 @@ public class VaccineChildDetails extends Fragment {
                         .findViewById(R.id.etVaccineType);
                 final EditText etDate = (EditText) promptsView
                         .findViewById(R.id.etDate);
+                final  CheckBox reminderCheck=(CheckBox)promptsView
+                        .findViewById(R.id.reminderCheck);
+
 
                 etDate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -118,6 +131,9 @@ public class VaccineChildDetails extends Fragment {
                             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                                   int dayOfMonth) {
                                 // TODO Auto-generated method stub
+                                year1=year;
+                                monthOfYear1=monthOfYear;
+                                dayOfMonth1=dayOfMonth;
                                 myCalendar.set(Calendar.YEAR, year);
                                 myCalendar.set(Calendar.MONTH, monthOfYear);
                                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -150,10 +166,24 @@ public class VaccineChildDetails extends Fragment {
                                         } else {
                                             vaccineName.add(etName.getText().toString());
                                             vaccineDetails.add(new VaccineDetails(etName.getText().toString(),
-                                                    etDate.getText().toString(), etType.getText().toString()));
+                                                    etDate.getText().toString(), etType.getText().toString(), "no"));
                                             updateList();
                                         }
+                                        if(reminderCheck.isChecked()){
+
+                                            Calendar calendar = new GregorianCalendar(year1, monthOfYear1, dayOfMonth1);
+
+                                            Intent notificationIntent = new Intent(getContext(), NotificationPublisher.class);
+                                            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+                                            notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, "Vaccine Time");
+                                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                            long futureInMillis = Math.abs(calendar.getTimeInMillis()-SystemClock.elapsedRealtime());
+                                            AlarmManager alarmManager = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
+                                            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+                                        }
                                     }
+
                                 })
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {

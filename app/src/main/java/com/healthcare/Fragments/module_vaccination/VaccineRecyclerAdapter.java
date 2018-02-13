@@ -60,7 +60,7 @@ public class VaccineRecyclerAdapter extends RecyclerView.Adapter<VaccineRecycler
                             ((MainActivity)context).getSupportFragmentManager()
                                     .beginTransaction()
                                     .addToBackStack(null)
-                                    .replace(R.id.container,new AllVaccineReminders())
+                                    .replace(R.id.container,AllVaccineReminders.newInstance(name.get(position)))
                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                                     .commit();
                         } else {

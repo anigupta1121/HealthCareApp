@@ -8,6 +8,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/colorPrimary"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.healthcare.Activities.RegisterActivity">
@@ -20,15 +21,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="REGISTER"
-        android:textSize="@dimen/heading_size"
-        android:id="@+id/tvRegister"
-        android:layout_gravity="center_horizontal" />
-    <android.support.design.widget.TextInputLayout
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="REGISTER"
+
+                android:textSize="@dimen/heading_size"
+                android:id="@+id/tvRegister"
+                android:layout_gravity="center_horizontal" />
+
+            <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <EditText
@@ -36,6 +40,7 @@
         android:layout_height="wrap_content"
         android:hint="Name"
         android:id="@+id/editTextName"
+        style="@style/Widget.EditText.Custom"
         android:layout_marginTop="52dp" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
@@ -45,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="User Name"
+        style="@style/Widget.EditText.Custom"
         android:id="@+id/editTextUserName"
         />
     </android.support.design.widget.TextInputLayout>
@@ -54,10 +60,58 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.EditText.Custom"
         android:hint="Email"
         android:id="@+id/editTextEmail"
         />
+
+       <!-- <RadioGroup
+            android:id="@+id/genderRadio"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView41"
+            android:layoutMode="opticalBounds"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/maleRB"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:checked="false"
+                style="@style/Widget.EditText.Custom"
+                android:text="Doctor" />
+
+            <RadioButton
+                android:id="@+id/femaleRB"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:buttonTintMode="src_atop"
+                android:checked="true"
+                style="@style/Widget.EditText.Custom"
+                android:elegantTextHeight="true"
+                android:text="User" />
+        </RadioGroup>-->
 </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.EditText.Custom"
+                    android:hint="Phone number"
+                    android:id="@+id/editTextPhone"
+                    android:inputType="number"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,6 +121,7 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:id="@+id/editTextPassword"
+        style="@style/Widget.EditText.Custom"
         android:inputType="textPassword"
         android:ems="10"
         />
@@ -80,6 +135,7 @@
         android:layout_height="wrap_content"
         android:hint="Retype Password"
         android:id="@+id/editTextPasswordAgain"
+        style="@style/Widget.EditText.Custom"
         android:inputType="textPassword"
         android:ems="10"
         />
@@ -88,8 +144,11 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.EditText.Custom"
                 android:layout_marginTop="10dp"
-                android:text="Register"
+                android:text="REGISTER"
+                android:background="@color/colorAccent"
+                android:textColor="#FFF"
                 android:id="@+id/btnRegister" />
         </LinearLayout>
 

@@ -18,7 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.healthcare.R;
+import com.healthcare.other.PrefManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,70 +46,78 @@ import xyz.hanks.library.SmallBangListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etName,etUserName,etPassword,etPasswordAgain,etEmail;
-    String Name,UserName,Password,PasswordAgain,Email;
+    EditText etName, etUserName, etPassword, etPasswordAgain, etEmail, etPhone;
+    String Name, UserName, Password, PasswordAgain, Email;
     SmallBang mSmallBang;
     TextView tvRegister;
     Button btnRegister;
+    String Phone;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference().child("users").push();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mSmallBang= SmallBang.attach2Window(this);
+        mSmallBang = SmallBang.attach2Window(this);
 
-        btnRegister=(Button)findViewById(R.id.btnRegister);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isInternetConnected())
+                if (isInternetConnected())
                     invokeRegister(btnRegister);
                 else
-                    Snackbar.make(findViewById(R.id.registerLinearLayout),"Check your internet connection!",Snackbar.LENGTH_LONG)
-                            .setAction("Ok",null)
+                    Snackbar.make(findViewById(R.id.registerLinearLayout), "Check your internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("Ok", null)
                             .show();
 
             }
 
         });
 
-        etName=(EditText) findViewById(R.id.editTextName);
-        etUserName=(EditText)findViewById(R.id.editTextUserName);
-        etPassword=(EditText)findViewById(R.id.editTextPassword);
-        etPasswordAgain=(EditText)findViewById(R.id.editTextPasswordAgain);
-        etEmail=(EditText)findViewById(R.id.editTextEmail);
+        etName = (EditText) findViewById(R.id.editTextName);
+        etUserName = (EditText) findViewById(R.id.editTextUserName);
+        etPassword = (EditText) findViewById(R.id.editTextPassword);
+        etPasswordAgain = (EditText) findViewById(R.id.editTextPasswordAgain);
+        etEmail = (EditText) findViewById(R.id.editTextEmail);
+        etPhone = (EditText) findViewById(R.id.editTextPhone);
 
-        tvRegister=(TextView)findViewById(R.id.tvRegister);
+        tvRegister = (TextView) findViewById(R.id.tvRegister);
         Typeface tf = Typeface.createFromAsset(getAssets(),
                 "fonts/font.ttf");
         tvRegister.setTypeface(tf);
 
 
     }
+
     private boolean isInternetConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             return true;
-        }
-        else
+        } else
             return false;
     }
-    public void invokeRegister(View view) {
-        Name=etName.getText().toString();
-        UserName=etUserName.getText().toString();
-        Password=etPassword.getText().toString();
-        PasswordAgain=etPasswordAgain.getText().toString();
-        Email=etEmail.getText().toString();
 
-        if(!(Name.equals("")||UserName.equals("")||Password.equals("")||PasswordAgain.equals("")||Email.equals("")))
-        {
-            if(Password.equals(PasswordAgain))
-            {
-                if(isValidEmail(Email))
-                {
-                    mSmallBang.bang(view,new SmallBangListener() {
+    public void invokeRegister(View view) {
+        Name = etName.getText().toString();
+        UserName = etUserName.getText().toString();
+        Password = etPassword.getText().toString();
+        PasswordAgain = etPasswordAgain.getText().toString();
+        Email = etEmail.getText().toString();
+        Phone = etPhone.getText().toString();
+
+        if (!(Name.equals("") || UserName.equals("") || Password.equals("") || PasswordAgain.equals("") || Email.equals("") || Phone.equals(""))) {
+            if (Phone.length() != 10) {
+                Snackbar.make(findViewById(R.id.registerLinearLayout), "Enter valid phone number!", Snackbar.LENGTH_LONG)
+                        .setAction("Ok", null)
+                        .show();
+            } else if (Password.equals(PasswordAgain)) {
+                if (isValidEmail(Email)) {
+                    mSmallBang.bang(view, new SmallBangListener() {
                         @Override
                         public void onAnimationStart() {
                             register();
@@ -118,31 +129,28 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
 
-                }
-                else {
+                } else {
                     etEmail.setText("");
-                    Snackbar.make(findViewById(R.id.registerLinearLayout),"Enter valid email!",Snackbar.LENGTH_LONG)
-                            .setAction("Ok",null)
+                    Snackbar.make(findViewById(R.id.registerLinearLayout), "Enter valid email!", Snackbar.LENGTH_LONG)
+                            .setAction("Ok", null)
                             .show();
 
 
                 }
 
-            }
-            else {
+            } else {
                 etPassword.setText("");
                 etPasswordAgain.setText("");
-                Snackbar.make(findViewById(R.id.registerLinearLayout),"Passwords do not match!",Snackbar.LENGTH_LONG)
-                        .setAction("Ok",null)
+                Snackbar.make(findViewById(R.id.registerLinearLayout), "Passwords do not match!", Snackbar.LENGTH_LONG)
+                        .setAction("Ok", null)
                         .show();
 
             }
 
 
-        }
-        else
-            Snackbar.make(findViewById(R.id.registerLinearLayout),"Please enter all the details!",Snackbar.LENGTH_LONG)
-                    .setAction("Ok",null)
+        } else
+            Snackbar.make(findViewById(R.id.registerLinearLayout), "Please enter all the details!", Snackbar.LENGTH_LONG)
+                    .setAction("Ok", null)
                     .show();
 
     }
@@ -161,9 +169,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(String... params) {
                 String name = params[0];
-                String uname=params[1];
+                String uname = params[1];
                 String pass = params[2];
-                String email=params[3];
+                String email = params[3];
+                String phone = params[4];
 
 
                 InputStream is = null;
@@ -172,10 +181,11 @@ public class RegisterActivity extends AppCompatActivity {
                 nameValuePairs.add(new BasicNameValuePair("password", pass));
                 nameValuePairs.add(new BasicNameValuePair("email", email));
                 nameValuePairs.add(new BasicNameValuePair("name", name));
+                nameValuePairs.add(new BasicNameValuePair("phone", phone));
 
                 String result = null;
 
-                try{
+                try {
                     HttpClient httpClient = new DefaultHttpClient();
                     HttpPost httpPost = new HttpPost(
                             "http://anigupta.esy.es/register.php");
@@ -191,8 +201,7 @@ public class RegisterActivity extends AppCompatActivity {
                     StringBuilder sb = new StringBuilder();
 
                     String line = null;
-                    while ((line = reader.readLine()) != null)
-                    {
+                    while ((line = reader.readLine()) != null) {
                         sb.append(line + "\n");
                     }
                     result = sb.toString();
@@ -207,30 +216,38 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(String result){
+            protected void onPostExecute(String result) {
                 String s = result.trim();
                 loadingDialog.dismiss();
-                if(s.equalsIgnoreCase("success")){
-                    Intent intent = new Intent(RegisterActivity.this,  LoginActivity.class);
+                if (s.equalsIgnoreCase("success")) {
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+
+                    myRef.child("email").setValue(Email);
+                    myRef.child("username").setValue(UserName);
+                    myRef.child("name").setValue(Name);
+                    myRef.child("phone").setValue(Phone);
+                    myRef.child("friends").setValue("None");
+                    myRef.child("loggedIn").setValue("false");
+                    myRef.child("token").setValue(PrefManager.getToken());
+
 
                     finish();
                     startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                 }
             }
         }
 
         RegisterAsync la = new RegisterAsync();
-        la.execute(Name,UserName,Password,Email);
+        la.execute(Name, UserName, Password, Email, Phone);
 
     }
 
 
-    boolean isValidEmail(String e){
-        for(int i=0;i<e.length();i++)
-        {
-            if(e.charAt(i)=='@')
+    boolean isValidEmail(String e) {
+        for (int i = 0; i < e.length(); i++) {
+            if (e.charAt(i) == '@')
                 return true;
         }
         return false;
@@ -239,7 +256,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(RegisterActivity.this,  LoginActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         finish();
         startActivity(intent);
     }

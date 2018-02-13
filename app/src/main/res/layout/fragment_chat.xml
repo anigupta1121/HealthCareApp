@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:padding="16dp"
+    tools:context="com.healthcare.Fragments.module_doctor_chat.ChatFrag">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:hint="Enter the username of doctor"
+        android:id="@+id/etDoctorUserName"
+        style="@style/Widget.EditText.Custom"
+        android:drawableLeft="@drawable/ic_account_box_black_24dp"
+        android:textColorHint="@color/black"
+        android:drawablePadding="8dp"
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etDoctorUserName"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFF"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.EditText.Custom"
+        android:background="@color/colorAccent"
+        android:id="@+id/btnStartChat"
+        android:text="  Start Chat  "/>
+</RelativeLayout>

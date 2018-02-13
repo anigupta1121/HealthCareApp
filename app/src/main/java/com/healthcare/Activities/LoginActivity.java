@@ -17,6 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.healthcare.R;
 import com.healthcare.handlers.DBHandler;
 
@@ -50,7 +55,9 @@ public class LoginActivity extends AppCompatActivity {
     String username, password;
     SmallBang mSmallBang;
     Button btnLogin;
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference().child("users");
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
         class LoginAsync extends AsyncTask<String, Void, String> {
 
-            private Dialog loadingDialog;
+
 
             @Override
             protected void onPreExecute() {
@@ -180,21 +187,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String result) {
                 String s = result.trim();
-                loadingDialog.dismiss();
+
                 if (s.equalsIgnoreCase("success")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("USER_NAME", username);
+
+
 
                     DBHandler.setLoggedIn(true, getApplicationContext());
-                    DBHandler.setName(editTextUserName.getText().toString(),LoginActivity.this);
+                    saveUserDetails(username);
 
-                    Toast.makeText(LoginActivity.this, "Check user details", Toast.LENGTH_SHORT).show();
-                    finish();
-                    startActivity(intent);
+
                 } else {
 
                     editTextUserName.setError("Check Username!!");
                     editTextPassword.setError("Check Password!!");
+                    loadingDialog.dismiss();
 
 
                 }
@@ -204,5 +210,33 @@ public class LoginActivity extends AppCompatActivity {
         LoginAsync la = new LoginAsync();
         la.execute(username, password);
 
+    }
+
+    private void saveUserDetails(final String text) {
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot k : dataSnapshot.getChildren()) {
+                    if (k.child("email").getValue().toString().equals(text) || k.child("username").getValue().toString().equals(text)) {
+                        DBHandler.setName(k.child("name").getValue().toString(), LoginActivity.this);
+                        DBHandler.setUserName(k.child("username").getValue().toString(), LoginActivity.this);
+                        DBHandler.setPushId(k.getKey(),LoginActivity.this);
+                        DBHandler.setPhone(k.child("phone").getValue().toString(),LoginActivity.this);
+                    }
+                }
+                loadingDialog.dismiss();
+                myRef.child(DBHandler.getPushId(LoginActivity.this)).child("loggedIn").setValue("true");
+                finish();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
