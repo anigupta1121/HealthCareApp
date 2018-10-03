@@ -9,7 +9,7 @@ The main catch of this application are the last two modules:
 Mortality and morbidity in trauma remain a major problem in developing countries. Organized emergency response systems for transfer of trauma patients to hospitals are absent and the consequent delays could cause significant complications. According to a study: _Out of 978 patients, only 303 (30.9%) patients reach the emergency room (ER) within an hour_.
 Keeping this in mind, this app connects the person sitting inside the ambulance having some medical knowledge to a doctor while there is a traffic jam. This person could speak the problems to the doctor and the doctor could send him/her some pictures diagrams or videos to help him understand what to do in this emergency. This could save a lot of lives and the death figures could be reduced which happen during the transfer of the patient from his/her place to the hospi-tal.
 
-**Ambulance Locator**: 
+**Ambulance Locator** : 
 
 With this module one can locate and book nearby ambulance. He can see real time location of ambulance and can book nearest ambulance. Thus, this can help to save a lot of time to take patient to hospital. Any hospital can register itself on app and provide ambulance service.
 
