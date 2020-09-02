@@ -19,7 +19,7 @@ Today in this busy life people many times ignore their health, especially when i
 
 ### •	Ambulance Locator
 
-To locate and book nearby ambulances or the nearest one according to convenience and to track their real time location on Google Maps.
+To locate and book nearby ambulances or the nearest one according to convenience and to track their real time location on Google Maps using the Maps API.
 
 ### •	Ambulance Emergency Chat
 
@@ -35,8 +35,8 @@ Record and maintain family health history and prescription given for past diseas
 
 ### •	Doctor Visit Scheduler
 
-To schedule doctor visits.
+To schedule doctor visits which helps in reminding the Doctors their visits.
 
 ### •	Vaccine Reminder
 
-Reminders for various types for vaccines
+Reminders for various types for vaccines which are needed by a patient in order to maintain his/her health.
